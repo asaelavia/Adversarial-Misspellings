@@ -142,9 +142,9 @@ def train_and_eval(task_name='cola', epochs=5, noise_train=0.0, noises_val=None,
                                                          sentence1_key,
                                                          sentence2_key,
                                                          rate=noise_val)
-                batch[sentence1_key][i] = noise_dict[sentence1_key]
+                batch[sentence1_key][i] = checker.correct_string(noise_dict[sentence1_key])
                 if sentence2_key is not None:
-                    batch[sentence2_key][i] = noise_dict[sentence2_key]
+                    batch[sentence2_key][i] = checker.correct_string(noise_dict[sentence2_key])
             if sentence2_key is not None:
                 toks = tokenizer(batch[sentence1_key], batch[sentence2_key], truncation=True, padding=True)
             else:
@@ -184,4 +184,4 @@ if __name__ == '__main__':
     for task in tasks:
         for noise in noises_train:
             print(f'Task: {task} with noise: {noise} Training')
-            train_and_eval(task, 5, noise, noises_val)
+            train_and_eval(task, 20, noise, noises_val)
